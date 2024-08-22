@@ -1,21 +1,24 @@
 import React, {createContext, useContext, useState, ReactNode} from 'react'
 
-// Определите типы значений контекста
 type AppContextType = {
-	selectedValue: string
-	setSelectedValue: (value: string) => void
+	selectedType: string
+	selectedYear: string
+	setSelectedType: (value: string) => void
+	setSelectedYear: (value: string) => void
 }
 
-// Создайте контекст с начальным значением
 const AppContext = createContext<AppContextType>({
-	selectedValue: '',
-	setSelectedValue: () => {},
+	selectedType: '',
+	setSelectedType: () => {},
+	selectedYear: '',
+	setSelectedYear: () => {},
 })
 
 export const AppProvider: React.FC<{children: ReactNode}> = ({children}) => {
-	const [selectedValue, setSelectedValue] = useState<string>('')
+	const [selectedType, setSelectedType] = useState<string>('')
+	const [selectedYear, setSelectedYear] = useState<string>('')
 
-	return <AppContext.Provider value={{selectedValue, setSelectedValue}}>{children}</AppContext.Provider>
+	return <AppContext.Provider value={{selectedType, selectedYear, setSelectedYear, setSelectedType}}>{children}</AppContext.Provider>
 }
 
 // Хук для использования контекста

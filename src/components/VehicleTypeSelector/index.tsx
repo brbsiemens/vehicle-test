@@ -5,28 +5,26 @@ import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import FormHelperText from '@mui/material/FormHelperText'
-import {getAllVehTypes} from '@/pages/api/get'
 import {useAppContext} from '@/Context'
-
-type VehType = {
-	MakeId?: number
-	MakeName: string
-	VehicleTypeId?: number
-	VehicleTypeName?: string
-}
+import {VehType} from './types'
+import {getAllVehTypes} from '@/pages/api/getData'
 
 export function VehicleTypeSelector() {
-	const {selectedValue, setSelectedValue} = useAppContext()
+	const {setSelectedType} = useAppContext()
 
 	const [vehTypes, setVehTypes] = useState<VehType[]>([])
-	const [selectedValue1, setSelectedValue1] = useState<string>('')
+	const [selectedValue, setSelectedValue] = useState<string>('')
 
 	const handleChange = (event: SelectChangeEvent<string>) => {
 		const value = event.target.value
-		setSelectedValue1(value)
 		setSelectedValue(value)
+
+		const selectedVehType = vehTypes.find(vehType => vehType.MakeName === value)
+		if (selectedVehType && selectedVehType.MakeId !== undefined) {
+			setSelectedType(selectedVehType.MakeId.toString())
+		}
 	}
-	console.log(selectedValue)
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
@@ -44,7 +42,7 @@ export function VehicleTypeSelector() {
 			<FormControl sx={{m: 1, minWidth: 120}}>
 				<InputLabel>Vehicle Types</InputLabel>
 				<Select
-					value={selectedValue1}
+					value={selectedValue}
 					onChange={handleChange}>
 					{vehTypes.map(vehType => (
 						<MenuItem

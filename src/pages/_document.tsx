@@ -6,10 +6,8 @@ export default function Document() {
 		<Html lang='en'>
 			<Head />
 			<body>
-				<AppProvider>
-					<Main />
-					<NextScript />
-				</AppProvider>
+				<Main />
+				<NextScript />
 			</body>
 		</Html>
 	)
